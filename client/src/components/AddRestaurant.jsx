@@ -1,9 +1,9 @@
 import React, { useState, useContext } from "react";
 import RestaurantFinder from "../apis/RestaurantFinder";
- import { RestaurantContext } from "../context/RestaurantContext";
+import { RestaurantContext } from "../context/RestaurantContext";
 
 export const AddRestaurant = () => {
-  const {addRestaurants} = useContext(RestaurantContext);
+  const { addRestaurants } = useContext(RestaurantContext);
   const [resname, setResName] = useState("");
   const [locations, setLocations] = useState("");
 
@@ -14,8 +14,7 @@ export const AddRestaurant = () => {
         resname,
         locations,
       });
-      addRestaurants(response.data.data);
-      console.log(response);
+      addRestaurants(response.data.data.restaurant);
     } catch (error) {
       console.error(error);
     }

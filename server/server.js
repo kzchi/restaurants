@@ -63,7 +63,6 @@ app.post("/api/v1/res", async (req, res) => {
       "INSERT INTO res (resname, locations) values ($1, $2) returning *",
       [req.body.resname, req.body.locations]
     );
-    console.log(results);
     res.status(201).json({
       status: "success",
       data: {
