@@ -1,17 +1,15 @@
 import React from "react";
+import Header from "../components/Header";
+import { AddRestaurant } from "../components/AddRestaurant";
+import RestaurantList from "../components/RestaurantList";
 
-// const Home = () => {
-//   return (
-//     <div>Home</div>
-//   )
-// }
-
-// export default Home
 
 function Home() {
   return (
     <div>
-      <h1>This is the home page</h1>
+     <Header />
+     <AddRestaurant />
+     <RestaurantList />
     </div>
   );
 }
