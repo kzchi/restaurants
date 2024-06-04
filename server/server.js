@@ -76,15 +76,13 @@ app.post("/api/v1/res", async (req, res) => {
 
 // Update a restaurant
 app.put("/api/v1/res/:id", async (req, res) => {
-  console.log(req.params.id);
-  console.log(req.body);
   try {
     const results = await db.query(
       "UPDATE res SET resname = $1, locations = $2 WHERE id = $3 returning *",
-      [req.body.resname, req.body.locations, req.body.id]
+      [req.body.resname, req.body.locations, req.params.id]
     );
-    console.log(results);
-    res.status(201).json({
+     
+    res.status(200).json({
       status: "success",
       data: {
         restaurant: results.rows[0],
@@ -93,6 +91,8 @@ app.put("/api/v1/res/:id", async (req, res) => {
   } catch (err) {
     console.log(err);
   }
+  console.log(req.params.id);
+  console.log(req.body);
 });
 
 // Delete a restaurant

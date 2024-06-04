@@ -1,9 +1,12 @@
 import React, { useContext, useEffect } from "react";
 import RestaurantFinder from "../apis/RestaurantFinder";
 import { RestaurantContext } from "../context/RestaurantContext";
+import { useNavigate } from "react-router-dom";
 
 function RestaurantList(props) {
   const { restaurants, setRestaurants } = useContext(RestaurantContext);
+  let navigate = useNavigate();
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -16,7 +19,8 @@ function RestaurantList(props) {
     fetchData();
   }, []);
 
-  const handleDelete = async (id) => {
+  const handleDelete = async (e, id) => {
+    e.stopPropagation();   // not hitting navigate
     try {
       const response = await RestaurantFinder.delete(`/${id}`);
       console.log(response);
@@ -28,6 +32,16 @@ function RestaurantList(props) {
     } catch (err) {
       console.log(err);
     }
+  };
+
+  const handleUpdate = async (e, id) => {
+    e.stopPropagation();   
+    navigate(`/restaurants/${id}/update`);
+  };
+
+  const handleResSelect = (id) => {
+    navigate(`/restaurants/${id}`);
+
   };
 
   return (
@@ -46,16 +60,21 @@ function RestaurantList(props) {
           {restaurants &&
             restaurants.map((res) => {
               return (
-                <tr key={res.id}>
+                <tr onClick={() => handleResSelect(res.id)} key={res.id}>
                   <td>{res.resname}</td>
                   <td>{res.locations}</td>
                   <td>reviews</td>
                   <td>
-                    <button className="btn btn-warning">Edit</button>
+                    <button
+                      onClick={(e) => handleUpdate(e, res.id)}
+                      className="btn btn-warning"
+                    >
+                      Edit
+                    </button>
                   </td>
                   <td>
                     <button
-                      onClick={() => handleDelete(res.id)}
+                      onClick={(e) => handleDelete(e, res.id)}
                       className="btn btn-danger"
                     >
                       Delete
