@@ -36,10 +36,19 @@ function RestaurantDetailPage() {
 
   return (
     <div>
-      
       {selectedRestaurant && (
         <>
-        <h1 className="text-center display-1" >{selectedRestaurant.restaurant.resname}</h1>
+          <h1 className="text-center display-1">
+            {selectedRestaurant.restaurant.resname}
+          </h1>
+          <div className="text-center">
+            <StarReview rating={selectedRestaurant.restaurant.average_rating} />
+            <span className="text-warning ml-1">
+              {selectedRestaurant.restaurant.count
+                ? `(${selectedRestaurant.restaurant.count})`
+                : "(0)"}
+            </span>
+          </div>
           <div className="mt-3">
             <Reviews reviews={selectedRestaurant.reviews} />
           </div>

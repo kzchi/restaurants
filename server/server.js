@@ -23,15 +23,17 @@ app.get("/api/v1/res", async (req, res) => {
   try {
     // const results = await db.query("SELECT * FROM res");
 
-    const resRatingData = await db.query("select * from res left join (select res_id, count(*), trunc(AVG(rating), 1) as avg_rating from reviews group by res_id) reviews on res.id = reviews.res_id");
+    const resRatingData = await db.query(
+      "select * from res left join (select res_id, count(*), trunc(AVG(rating), 1) as avg_rating from reviews group by res_id) reviews on res.id = reviews.res_id"
+    );
 
-    console.log('res rating data',resRatingData);
+    console.log("res rating data", resRatingData);
 
     res.status(200).json({
       status: "success",
-      results: results.rows.length,
+      results: resRatingData.rows.length,
       data: {
-        restaurants: results.rows,
+        restaurants: resRatingData.rows,
       },
     });
   } catch (err) {
@@ -44,7 +46,7 @@ app.get("/api/v1/res/:id", async (req, res) => {
   // console.log(req.params.id);
 
   try {
-    const rest = await db.query("SELECT * FROM res WHERE id = $1", [
+    const rest = await db.query("select * from res left join (select res_id, count(*), trunc(AVG(rating), 1) as avg_rating from reviews group by res_id) reviews on res.id = reviews.res_id where id=$1", [
       req.params.id,
     ]);
     // console.log(results.rows[0]);
